@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Azul Wallet</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+        h1 { color: #0073e6; font-size: 24px; text-align: center; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        input, select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .result { margin-top: 20px; font-size: 16px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Simulador Azul Wallet</h1>
+        <label for="valorWallet">Valor desejado de Wallet (R$):</label>
+        <input type="number" id="valorWallet" placeholder="Ex: 1000">
+
+        <label for="desagio">Deságio (%):</label>
+        <input type="number" id="desagio" step="0.01" placeholder="Ex: 25">
+
+        <button onclick="calcular()">Calcular</button>
+
+        <div class="result" id="resultado"></div>
+    </div>
+
+    <script>
+        function calcular() {
+            const valorWallet = parseFloat(document.getElementById("valorWallet").value);
+            const desagio = parseFloat(document.getElementById("desagio").value);
+
+            if (!valorWallet || !desagio) {
+                document.getElementById("resultado").innerText = "Preencha todos os campos.";
+                return;
+            }
+
+            const valorVenda = valorWallet * (1 - desagio / 100);
+            const custo = valorWallet * 0.1; // Exemplo de custo proporcional fictício
+            const lucro = valorVenda - custo;
+
+            document.getElementById("resultado").innerHTML = `
+                Valor da Venda: R$ ${valorVenda.toFixed(2)}<br>
+                Custo Estimado: R$ ${custo.toFixed(2)}<br>
+                Lucro Estimado: R$ ${lucro.toFixed(2)}
+            `;
+        }
+    </script>
+</body>
+</html>
