@@ -1,53 +1,54 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador Azul Wallet</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
-        h1 { color: #0073e6; font-size: 24px; text-align: center; }
-        label { display: block; margin-top: 15px; font-weight: bold; }
-        input, select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; }
-        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .result { margin-top: 20px; font-size: 16px; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de Milhas</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+    h1 { text-align: center; color: #333; }
+    label { margin-top: 15px; display: block; font-weight: bold; }
+    input { width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; }
+    button { margin-top: 20px; padding: 12px; background: #007BFF; color: white; border: none; width: 100%; border-radius: 8px; font-size: 16px; }
+    button:hover { background: #0056b3; }
+    .result { margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 8px; }
+  </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Simulador Azul Wallet</h1>
-        <label for="valorWallet">Valor desejado de Wallet (R$):</label>
-        <input type="number" id="valorWallet" placeholder="Ex: 1000">
+  <h1>Calculadora de Milhas</h1>
+  <label>Valor do milheiro (R$):</label>
+  <input type="number" id="valorMilheiro" value="14.00" step="0.01">
 
-        <label for="desagio">Deságio (%):</label>
-        <input type="number" id="desagio" step="0.01" placeholder="Ex: 25">
+  <label>Quantidade de milhas:</label>
+  <input type="number" id="quantidadeMilhas">
 
-        <button onclick="calcular()">Calcular</button>
+  <label>Valor do site (R$):</label>
+  <input type="number" id="valorSite" step="0.01">
 
-        <div class="result" id="resultado"></div>
-    </div>
+  <button onclick="calcular()">Calcular</button>
 
-    <script>
-        function calcular() {
-            const valorWallet = parseFloat(document.getElementById("valorWallet").value);
-            const desagio = parseFloat(document.getElementById("desagio").value);
+  <div class="result" id="resultado"></div>
 
-            if (!valorWallet || !desagio) {
-                document.getElementById("resultado").innerText = "Preencha todos os campos.";
-                return;
-            }
+  <script>
+    function calcular() {
+      const milheiro = parseFloat(document.getElementById('valorMilheiro').value);
+      const milhas = parseFloat(document.getElementById('quantidadeMilhas').value);
+      const valorSite = parseFloat(document.getElementById('valorSite').value);
 
-            const valorVenda = valorWallet * (1 - desagio / 100);
-            const custo = valorWallet * 0.1; // Exemplo de custo proporcional fictício
-            const lucro = valorVenda - custo;
+      if (isNaN(milheiro) || isNaN(milhas) || isNaN(valorSite)) {
+        document.getElementById('resultado').innerHTML = "Por favor, preencha todos os campos corretamente.";
+        return;
+      }
 
-            document.getElementById("resultado").innerHTML = `
-                Valor da Venda: R$ ${valorVenda.toFixed(2)}<br>
-                Custo Estimado: R$ ${custo.toFixed(2)}<br>
-                Lucro Estimado: R$ ${lucro.toFixed(2)}
-            `;
-        }
-    </script>
+      const valorVenda = (milhas / 1000) * milheiro;
+      const diferenca = valorSite - valorVenda;
+      const percentual = ((diferenca / valorVenda) * 100).toFixed(2);
+
+      document.getElementById('resultado').innerHTML = `
+        <strong>Valor da Venda:</strong> R$ ${valorVenda.toFixed(2)}<br>
+        <strong>Diferença (Valor do site - Venda):</strong> R$ ${diferenca.toFixed(2)}<br>
+        <strong>Diferença percentual:</strong> ${percentual}%`;
+    }
+  </script>
 </body>
 </html>
